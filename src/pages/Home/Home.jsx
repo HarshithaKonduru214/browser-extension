@@ -15,11 +15,11 @@ export default function Home() {
           <FontAwesomeIcon className="search-icon" icon={faSearch} />
         </div>
         <div className="weather">
-          <div className="weather-temperature">
-            <FontAwesomeIcon icon={faCloudBolt} />
-            33 &deg;
+          <FontAwesomeIcon icon={faCloudBolt} className="weather-icon" />
+          <div className="weather-details">
+            <div className="weather-temperature">33 &deg;</div>
+            <div className="weather-location">Bangalore</div>
           </div>
-          <div className="weather-location">Bengaluru</div>
         </div>
       </div>
       <div className="main">Main</div>
