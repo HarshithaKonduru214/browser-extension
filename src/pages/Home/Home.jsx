@@ -1,8 +1,18 @@
-import { faCloudBolt, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCloudBolt,
+  faPencil,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRef, useState } from "react";
 import "./home.css";
 
 export default function Home() {
+  const focusInput = useRef("");
+  const [focusText, setFocusText] = useState("");
+  const [focusState, setFocusState] = useState(false);
+  const [checked, setChecked] = useState(false);
+
   return (
     <div className="home-container background-image">
       <div className="header">
@@ -22,7 +32,38 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="main">Main</div>
+      <div className="main">
+        <div className="time">20:08</div>
+        <div className="greeting">Good Evening, Name</div>
+        <div className="focus">
+          <div className="focus-question">What's your main focus today?</div>
+          {focusText !== "" && focusState ? (
+            <>
+              <div className="focus-title">TODAY</div>
+              <div className="focus-item">
+                <input
+                  type="checkbox"
+                  onChange={() => setChecked((prev) => !prev)}
+                />
+                <div className={`${checked ? "strike" : ""}`}>{focusText}</div>
+                <FontAwesomeIcon icon={faPencil} className="edit-icon" />
+              </div>
+            </>
+          ) : (
+            <input
+              type="text"
+              className="focus-input"
+              ref={focusInput}
+              onKeyPress={(event) =>
+                event.key === "Enter"
+                  ? (setFocusState(true),
+                    setFocusText(focusInput.current.value))
+                  : ""
+              }
+            />
+          )}
+        </div>
+      </div>
       <div className="footer">Footer</div>
     </div>
   );
