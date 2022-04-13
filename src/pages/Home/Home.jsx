@@ -1,5 +1,7 @@
 import {
+  faClipboardList,
   faCloudBolt,
+  faGear,
   faPencil,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +14,9 @@ export default function Home() {
   const [focusText, setFocusText] = useState("");
   const [focusState, setFocusState] = useState(false);
   const [checked, setChecked] = useState(false);
+
+  const [logoutMenu, setLogoutMenu] = useState(false);
+  const [todoDisplay, setTodoDisplay] = useState(false);
 
   return (
     <div className="home-container background-image">
@@ -33,7 +38,7 @@ export default function Home() {
         </div>
       </div>
       <div className="main">
-        <div className="time">20:08</div>
+        <div className="time">16:45</div>
         <div className="greeting">Good Evening, Name</div>
         <div className="focus">
           <div className="focus-question">What's your main focus today?</div>
@@ -64,7 +69,35 @@ export default function Home() {
           )}
         </div>
       </div>
-      <div className="footer">Footer</div>
+      <div className="footer">
+        <div className="logout">
+          <FontAwesomeIcon
+            icon={faGear}
+            className="logout-icon"
+            onClick={() => setLogoutMenu((prev) => !prev)}
+          />
+          {logoutMenu ? <div className="logout-menu">Change name</div> : ""}
+        </div>
+        <div className="quote">"Quote of the day"</div>
+        <div className="todo" onClick={() => setTodoDisplay((prev) => !prev)}>
+          <FontAwesomeIcon icon={faClipboardList} />
+          Todo
+        </div>
+        {todoDisplay ? (
+          <div className="todo-menu">
+            <div className="todo-title">Today</div>
+            <div className="todo-items"></div>
+            <div className="todo-footer">
+              <input type="text" className="todo-input" />
+              <button className="add-button" onClick={() => {}}>
+                Add
+              </button>
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 }
