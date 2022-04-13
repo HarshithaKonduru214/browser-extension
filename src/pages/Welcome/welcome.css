@@ -6,7 +6,6 @@
 }
 
 .welcome-container {
-  height: 100vh;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -16,6 +15,7 @@
 }
 
 .background-image {
+  height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
   background-image: linear-gradient(
