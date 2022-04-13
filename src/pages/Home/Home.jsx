@@ -39,7 +39,9 @@ export default function Home() {
       </div>
       <div className="main">
         <div className="time">16:45</div>
-        <div className="greeting">Good Evening, Name</div>
+        <div className="greeting">
+          Good Evening, {localStorage.getItem("userName")}
+        </div>
         <div className="focus">
           <div className="focus-question">What's your main focus today?</div>
           {focusText !== "" && focusState ? (
@@ -76,7 +78,19 @@ export default function Home() {
             className="logout-icon"
             onClick={() => setLogoutMenu((prev) => !prev)}
           />
-          {logoutMenu ? <div className="logout-menu">Change name</div> : ""}
+          {logoutMenu ? (
+            <div
+              className="logout-menu"
+              onClick={() => {
+                localStorage.removeItem("userName");
+                window.location.reload(false);
+              }}
+            >
+              Change name
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="quote">"Quote of the day"</div>
         <div className="todo" onClick={() => setTodoDisplay((prev) => !prev)}>

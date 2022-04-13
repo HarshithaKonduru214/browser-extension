@@ -20,7 +20,13 @@ export default function Welcome() {
       />
 
       {name !== "" ? (
-        <button className="welcome-button">
+        <button
+          className="welcome-button"
+          onClick={() => {
+            localStorage.setItem("userName", nameInput.current.value);
+            window.location.reload(false);
+          }}
+        >
           Continue
           <FontAwesomeIcon className="welcome-icon" icon={faAngleRight} />{" "}
         </button>
