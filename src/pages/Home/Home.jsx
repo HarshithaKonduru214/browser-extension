@@ -12,6 +12,8 @@ import "./home.css";
 
 export default function Home() {
   const focusInput = useRef("");
+  const searchInput = useRef("");
+  const [searchText, setSearchText] = useState("");
   const [focusText, setFocusText] = useState("");
   const [focusState, setFocusState] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -75,12 +77,27 @@ export default function Home() {
     <div className="home-container background-image">
       <div className="header">
         <div className="searchbar">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Google Search"
-          />
-          <FontAwesomeIcon className="search-icon" icon={faSearch} />
+          <form
+            method="get"
+            action="https://www.google.com/search"
+            className="search-form"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <input
+              type="text"
+              name="q"
+              className="search-input"
+              placeholder="Google Search"
+              autocomplete="off"
+              ref={searchInput}
+              value={searchText}
+              onChange={() => setSearchText(searchInput.current.value)}
+            />
+            <button className="search-button" type="submit">
+              <FontAwesomeIcon className="search-icon" icon={faSearch} />
+            </button>
+          </form>
         </div>
         <div className="weather">
           <img

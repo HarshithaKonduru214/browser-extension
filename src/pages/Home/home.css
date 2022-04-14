@@ -72,6 +72,12 @@ input[type="checkbox"]:checked::before {
 .search-icon {
   color: var(--white);
   cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.search-button {
+  background: none;
+  border: none;
 }
 
 .weather {
