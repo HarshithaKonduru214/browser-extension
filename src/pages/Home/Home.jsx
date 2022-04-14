@@ -137,8 +137,7 @@ export default function Home() {
               {weatherInfo.temperature} &deg;
             </div>
             <div className="weather-location">
-              {weatherInfo.location.name}, {weatherInfo.location.region},{" "}
-              {weatherInfo.location.country}
+              {weatherInfo.location.name},{weatherInfo.location.country}
             </div>
           </div>
         </div>
