@@ -59,7 +59,9 @@ export default function Home() {
   }, []);
   async function getQuoteText() {
     try {
-      const res = await axios.get("https://api.quotable.io/random");
+      const res = await axios.get(
+        "https://api.quotable.io/random?tags=education|faith|wisdom|happiness|inspirational|success|&maxLength=100"
+      );
       setQuoteText(res.data.content);
     } catch (error) {
       console.log(error);
