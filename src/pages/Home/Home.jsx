@@ -163,9 +163,17 @@ export default function Home() {
                 <input
                   type="checkbox"
                   onChange={() => setChecked((prev) => !prev)}
+                  checked={checked}
                 />
                 <div className={`${checked ? "strike" : ""}`}>{focusText}</div>
-                <FontAwesomeIcon icon={faPencil} className="edit-icon" />
+                <FontAwesomeIcon
+                  icon={faPencil}
+                  className="edit-icon"
+                  onClick={() => {
+                    setChecked(false);
+                    setFocusState((prev) => !prev);
+                  }}
+                />
               </div>
             </>
           ) : (
