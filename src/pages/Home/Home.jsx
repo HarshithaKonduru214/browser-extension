@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-expressions */
 import {
   faClipboardList,
@@ -52,7 +53,7 @@ export default function Home() {
 
   useEffect(() => {
     getUserLocation();
-  });
+  }, []);
 
   useEffect(() => {
     getQuoteText();
