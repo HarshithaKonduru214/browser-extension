@@ -26,7 +26,7 @@ export default function Home() {
   const minute = time.getMinutes();
   const minutes = minute / 10 < 1 ? `0${minute}` : minute;
 
-  const [weatherData, setWeatherData] = useState({
+  const [weatherInfo, setWeatherInfo] = useState({
     location: {
       name: "",
       region: "",
@@ -37,8 +37,8 @@ export default function Home() {
   });
 
   useEffect(() => {
-    getLocation();
-  });
+    getUserLocation();
+  }, []);
 
   const success = (position) => {
     getWeather(position.coords.latitude, position.coords.longitude);
@@ -48,18 +48,18 @@ export default function Home() {
     getWeather();
   };
 
-  const getLocation = () => {
+  const getUserLocation = () => {
     navigator.geolocation.getCurrentPosition(success, error);
   };
 
   async function getWeather(latitude, longitude) {
-    let request = "";
+    let apiRequest = "";
     latitude && longitude
-      ? (request = `https://api.weatherapi.com/v1/current.json?key=05c5b06880884ecd9e1163032220204&q=${latitude},${longitude}&aqi=yes`)
-      : (request = `https://api.weatherapi.com/v1/current.json?key=05c5b06880884ecd9e1163032220204&q=Bangalore&aqi=yes`);
+      ? (apiRequest = `https://api.weatherapi.com/v1/current.json?key=90592d9f740046e29bb53205221404&q=${latitude},${longitude}&aqi=yes`)
+      : (apiRequest = `https://api.weatherapi.com/v1/current.json?key=90592d9f740046e29bb53205221404&q=Bangalore&aqi=yes`);
     try {
-      const res = await axios.get(request);
-      setWeatherData({
+      const res = await axios.get(apiRequest);
+      setWeatherInfo({
         location: {
           name: res.data.location.name,
           region: res.data.location.region,
@@ -72,7 +72,6 @@ export default function Home() {
       console.log(error);
     }
   }
-  console.log(weatherData);
   return (
     <div className="home-container background-image">
       <div className="header">
@@ -85,10 +84,19 @@ export default function Home() {
           <FontAwesomeIcon className="search-icon" icon={faSearch} />
         </div>
         <div className="weather">
-          <FontAwesomeIcon icon={faCloudBolt} className="weather-icon" />
+          <img
+            src={weatherInfo.icon}
+            alt="weather-icon"
+            className="weather-icon"
+          />
           <div className="weather-details">
-            <div className="weather-temperature">33 &deg;</div>
-            <div className="weather-location">Bangalore</div>
+            <div className="weather-temperature">
+              {weatherInfo.temperature} &deg;
+            </div>
+            <div className="weather-location">
+              {weatherInfo.location.name}, {weatherInfo.location.region},{" "}
+              {weatherInfo.location.country}
+            </div>
           </div>
         </div>
       </div>
