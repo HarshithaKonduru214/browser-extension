@@ -87,7 +87,6 @@ export default function Home() {
       : (apiRequest = `https://api.weatherapi.com/v1/current.json?key=90592d9f740046e29bb53205221404&q=Bangalore&aqi=yes`);
     try {
       const res = await axios.get(apiRequest);
-      console.log(res);
       setWeatherInfo({
         location: {
           name: res.data.location.name,
