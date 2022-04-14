@@ -37,7 +37,7 @@ export default function Home() {
 
   useEffect(() => {
     getUserLocation();
-  }, []);
+  });
 
   const success = (position) => {
     getWeather(position.coords.latitude, position.coords.longitude);
