@@ -155,7 +155,9 @@ export default function Home() {
           , {localStorage.getItem("userName")}
         </div>
         <div className="focus">
-          <div className="focus-question">What's your main focus today?</div>
+          <div className="focus-question">
+            What's your main focus for today?
+          </div>
           {focusText !== "" && focusState ? (
             <>
               <div className="focus-title">TODAY</div>
