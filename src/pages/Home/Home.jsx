@@ -83,18 +83,19 @@ export default function Home() {
   async function getWeather(latitude, longitude) {
     let apiRequest = "";
     latitude && longitude
-      ? (apiRequest = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=2ff78f480e65a34fdddc979634286b1c`)
-      : (apiRequest = `https://api.openweathermap.org/data/2.5/weather?q=Bangalore&appid=2ff78f480e65a34fdddc979634286b1c`);
+      ? (apiRequest = `https://api.weatherapi.com/v1/current.json?key=90592d9f740046e29bb53205221404&q=${latitude},${longitude}&aqi=yes`)
+      : (apiRequest = `https://api.weatherapi.com/v1/current.json?key=90592d9f740046e29bb53205221404&q=Bangalore&aqi=yes`);
     try {
       const res = await axios.get(apiRequest);
       console.log(res);
       setWeatherInfo({
         location: {
-          name: res.data.name,
-          country: res.data.sys.country,
+          name: res.data.location.name,
+          region: res.data.location.region,
+          country: res.data.location.country,
         },
-        temperature: Math.round(res.data.main.temp - 273.15),
-        icon: res.data.weather[0].icon,
+        temperature: res.data.current.temp_c,
+        icon: res.data.current.condition.icon,
       });
     } catch (error) {
       console.log(error);
@@ -128,7 +129,7 @@ export default function Home() {
         </div>
         <div className="weather">
           <img
-            src={`http://openweathermap.org/img/w/${weatherInfo.icon}.png`}
+            src={weatherInfo.icon}
             alt="weather-icon"
             className="weather-icon"
           />
@@ -137,7 +138,8 @@ export default function Home() {
               {weatherInfo.temperature} &deg;
             </div>
             <div className="weather-location">
-              {weatherInfo.location.name},{weatherInfo.location.country}
+              {weatherInfo.location.name}, {weatherInfo.location.region} ,
+              {weatherInfo.location.country}
             </div>
           </div>
         </div>
