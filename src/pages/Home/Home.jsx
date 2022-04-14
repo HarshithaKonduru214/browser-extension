@@ -4,8 +4,10 @@ import {
   faGear,
   faPencil,
   faSearch,
+  faX,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { v4 as uuid } from "uuid";
 import axios from "axios";
 import { useRef, useState, useEffect } from "react";
 import "./home.css";
@@ -13,6 +15,7 @@ import "./home.css";
 export default function Home() {
   const focusInput = useRef("");
   const searchInput = useRef("");
+  const todoInput = useRef("");
   const [searchText, setSearchText] = useState("");
   const [focusText, setFocusText] = useState("");
   const [quoteText, setQuoteText] = useState("");
@@ -20,6 +23,7 @@ export default function Home() {
   const [checked, setChecked] = useState(false);
 
   const [logoutMenu, setLogoutMenu] = useState(false);
+  const [todoTasks, setTodoTasks] = useState([]);
   const [todoDisplay, setTodoDisplay] = useState(false);
 
   // TIME FETCH
@@ -38,6 +42,14 @@ export default function Home() {
     icon: "",
   });
 
+  function todoUpdate() {
+    todoInput.current.value &&
+      setTodoTasks([
+        ...todoTasks,
+        { _id: uuid(), name: todoInput.current.value, todoStrike: true },
+      ]);
+  }
+
   useEffect(() => {
     getUserLocation();
   });
@@ -47,9 +59,7 @@ export default function Home() {
   }, []);
   async function getQuoteText() {
     try {
-      const res = await axios.get(
-        "https://api.quotable.io/random?tags=education|faith|wisdom|happiness|inspirational|success|&maxLength=100"
-      );
+      const res = await axios.get("https://api.quotable.io/random");
       setQuoteText(res.data.content);
     } catch (error) {
       console.log(error);
@@ -199,13 +209,60 @@ export default function Home() {
           <FontAwesomeIcon icon={faClipboardList} />
           Todo
         </div>
+
         {todoDisplay ? (
           <div className="todo-menu">
             <div className="todo-title">Today</div>
-            <div className="todo-items"></div>
+            <div className="todo-tasks">
+              {todoTasks !== [] &&
+                todoTasks.map((item) => {
+                  return (
+                    <div className="task-wrapper">
+                      <div
+                        className={`tasks ${item.todoStrike ? "" : "strike"}`}
+                      >
+                        <input
+                          type="checkbox"
+                          id="todo-check"
+                          onChange={() => {
+                            const temp = todoTasks.map((obj) => {
+                              return obj._id === item._id
+                                ? { ...obj, todoStrike: !item.todoStrike }
+                                : obj;
+                            });
+                            setTodoTasks(temp);
+                          }}
+                          checked={item.todoStrike ? false : true}
+                        />
+                        {item.name}
+                      </div>
+                      <FontAwesomeIcon
+                        className="remove-icon"
+                        icon={faX}
+                        onClick={() => {
+                          const tempArr = todoTasks
+                            .map((obj) => obj)
+                            .filter((obj) => obj._id !== item._id);
+                          setTodoTasks(tempArr);
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+            </div>
             <div className="todo-footer">
-              <input type="text" className="todo-input" />
-              <button className="add-button" onClick={() => {}}>
+              <input
+                type="text"
+                className="todo-input"
+                placeholder="Add todo"
+                ref={todoInput}
+              />
+              <button
+                className="add-button"
+                onClick={() => {
+                  todoUpdate();
+                }}
+              >
                 Add
               </button>
             </div>
