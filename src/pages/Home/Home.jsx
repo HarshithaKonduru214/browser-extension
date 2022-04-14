@@ -12,7 +12,10 @@ import "./home.css";
 
 export default function Home() {
   const focusInput = useRef("");
+  const searchInput = useRef("");
+  const [searchText, setSearchText] = useState("");
   const [focusText, setFocusText] = useState("");
+  const [quoteText, setQuoteText] = useState("");
   const [focusState, setFocusState] = useState(false);
   const [checked, setChecked] = useState(false);
 
@@ -38,6 +41,20 @@ export default function Home() {
   useEffect(() => {
     getUserLocation();
   });
+
+  useEffect(() => {
+    getQuoteText();
+  }, []);
+  async function getQuoteText() {
+    try {
+      const res = await axios.get(
+        "https://api.quotable.io/random?tags=education|faith|wisdom|happiness|inspirational|success|&maxLength=100"
+      );
+      setQuoteText(res.data.content);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const success = (position) => {
     getWeather(position.coords.latitude, position.coords.longitude);
@@ -75,12 +92,27 @@ export default function Home() {
     <div className="home-container background-image">
       <div className="header">
         <div className="searchbar">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Google Search"
-          />
-          <FontAwesomeIcon className="search-icon" icon={faSearch} />
+          <form
+            method="get"
+            action="https://www.google.com/search"
+            className="search-form"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <input
+              type="text"
+              name="q"
+              className="search-input"
+              placeholder="Google Search"
+              autocomplete="off"
+              ref={searchInput}
+              value={searchText}
+              onChange={() => setSearchText(searchInput.current.value)}
+            />
+            <button className="search-button" type="submit">
+              <FontAwesomeIcon className="search-icon" icon={faSearch} />
+            </button>
+          </form>
         </div>
         <div className="weather">
           <img
@@ -162,7 +194,7 @@ export default function Home() {
             ""
           )}
         </div>
-        <div className="quote">"Quote of the day"</div>
+        <div className="quote">"{quoteText}"</div>
         <div className="todo" onClick={() => setTodoDisplay((prev) => !prev)}>
           <FontAwesomeIcon icon={faClipboardList} />
           Todo
