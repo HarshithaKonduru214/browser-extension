@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import {
   faClipboardList,
-  faCloudBolt,
   faGear,
   faPencil,
   faSearch,
