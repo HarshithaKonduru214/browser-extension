@@ -15,6 +15,7 @@ export default function Home() {
   const searchInput = useRef("");
   const [searchText, setSearchText] = useState("");
   const [focusText, setFocusText] = useState("");
+  const [quoteText, setQuoteText] = useState("");
   const [focusState, setFocusState] = useState(false);
   const [checked, setChecked] = useState(false);
 
@@ -40,6 +41,20 @@ export default function Home() {
   useEffect(() => {
     getUserLocation();
   });
+
+  useEffect(() => {
+    getQuoteText();
+  }, []);
+  async function getQuoteText() {
+    try {
+      const res = await axios.get(
+        "https://api.quotable.io/random?tags=education|faith|wisdom|happiness|inspirational|success|&maxLength=100"
+      );
+      setQuoteText(res.data.content);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const success = (position) => {
     getWeather(position.coords.latitude, position.coords.longitude);
@@ -179,7 +194,7 @@ export default function Home() {
             ""
           )}
         </div>
-        <div className="quote">"Quote of the day"</div>
+        <div className="quote">"{quoteText}"</div>
         <div className="todo" onClick={() => setTodoDisplay((prev) => !prev)}>
           <FontAwesomeIcon icon={faClipboardList} />
           Todo
