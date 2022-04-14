@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import {
   faClipboardList,
   faCloudBolt,
@@ -6,7 +7,8 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef, useState } from "react";
+import axios from "axios";
+import { useRef, useState, useEffect } from "react";
 import "./home.css";
 
 export default function Home() {
@@ -18,6 +20,59 @@ export default function Home() {
   const [logoutMenu, setLogoutMenu] = useState(false);
   const [todoDisplay, setTodoDisplay] = useState(false);
 
+  // TIME FETCH
+  const time = new Date();
+  const hour = time.getHours();
+  const minute = time.getMinutes();
+  const minutes = minute / 10 < 1 ? `0${minute}` : minute;
+
+  const [weatherData, setWeatherData] = useState({
+    location: {
+      name: "",
+      region: "",
+      country: "",
+    },
+    temperature: 0,
+    icon: "",
+  });
+
+  useEffect(() => {
+    getLocation();
+  });
+
+  const success = (position) => {
+    getWeather(position.coords.latitude, position.coords.longitude);
+  };
+
+  const error = () => {
+    getWeather();
+  };
+
+  const getLocation = () => {
+    navigator.geolocation.getCurrentPosition(success, error);
+  };
+
+  async function getWeather(latitude, longitude) {
+    let request = "";
+    latitude && longitude
+      ? (request = `https://api.weatherapi.com/v1/current.json?key=05c5b06880884ecd9e1163032220204&q=${latitude},${longitude}&aqi=yes`)
+      : (request = `https://api.weatherapi.com/v1/current.json?key=05c5b06880884ecd9e1163032220204&q=Bangalore&aqi=yes`);
+    try {
+      const res = await axios.get(request);
+      setWeatherData({
+        location: {
+          name: res.data.location.name,
+          region: res.data.location.region,
+          country: res.data.location.country,
+        },
+        temperature: res.data.current.temp_c,
+        icon: res.data.current.condition.icon,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(weatherData);
   return (
     <div className="home-container background-image">
       <div className="header">
@@ -38,9 +93,17 @@ export default function Home() {
         </div>
       </div>
       <div className="main">
-        <div className="time">16:45</div>
+        <div className="time">
+          {hour}:{minutes}
+        </div>
         <div className="greeting">
-          Good Evening, {localStorage.getItem("userName")}
+          Good
+          {(hour < 4 && " Night") ||
+            (hour < 12 && " Morning") ||
+            (hour < 16 && " Afternoon") ||
+            (hour < 21 && " Evening") ||
+            "Night"}
+          , {localStorage.getItem("userName")}
         </div>
         <div className="focus">
           <div className="focus-question">What's your main focus today?</div>
