@@ -12,3 +12,9 @@ Oxygen Focus is an interactive browser extension that helps you efficiently orga
 - Users can add todo activities/tasks and delete them on completion.
 - Provides Google search access with a search bar.
 - The background image is new on every refresh with a motivating quote.
+
+![image](https://user-images.githubusercontent.com/83581646/163601087-96d39de5-d1b8-451b-b4e4-09cdbd126a75.png)
+![image](https://user-images.githubusercontent.com/83581646/163601210-308a8929-d3b4-4be6-a8a0-62abf780327c.png)
+![image](https://user-images.githubusercontent.com/83581646/163601364-db05ca47-16a3-41dd-85b3-300cb4574bd9.png)
+![image](https://user-images.githubusercontent.com/83581646/163601495-88148708-e08a-4c14-9bf0-8fbe734ad789.png)
+
