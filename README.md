@@ -1,4 +1,4 @@
-### OXYGEN FOCUS
+<h1 align="center">OXYGEN FOCUS</h1>
  
 ### What is Oxygen Focus?
 	
