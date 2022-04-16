@@ -74,7 +74,7 @@ input[id="todo-check"]:checked::before {
     ),
     url("https://source.unsplash.com/random/?nature/1366×768");
     background-size: cover;
-    
+    height: 100vh;
 }
 
 .header {
